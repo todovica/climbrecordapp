@@ -4,6 +4,7 @@ import { authHeader } from '../_helpers';
 export const userService = {
     login,
     logout,
+    signup,
     getAll
 };
 
@@ -27,6 +28,28 @@ function login(username, password) {
 
             return user;
         });
+}
+
+function signup(username, password, firstName, lastName) {
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password, firstName, lastName })
+    };
+    
+    return fetch(`${config.apiUrl}/users/addUser`, requestOptions)
+        .then(handleResponse)
+        .then(user => {
+            // login successful if there's a user in the response
+            if (user) {
+                // store user details and basic auth credentials in local storage 
+                // to keep user logged in between page refreshes
+                user.authdata = window.btoa(username + ':' + password);
+                localStorage.setItem('user', JSON.stringify(user));
+            }
+            return user;
+        })
+        .catch(err => console.log("err: " + err));
 }
 
 function logout() {

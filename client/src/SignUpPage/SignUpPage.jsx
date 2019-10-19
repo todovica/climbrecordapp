@@ -2,7 +2,7 @@ import React from 'react';
 
 import { userService } from '../_services';
 
-class LoginPage extends React.Component {
+class SignUpPage extends React.Component {
     constructor(props) {
         super(props);
 
@@ -11,13 +11,14 @@ class LoginPage extends React.Component {
         this.state = {
             username: '',
             password: '',
+            firstname: '',
+            lastname: '',
             submitted: false,
             loading: false,
             error: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleLogin = this.handleLogin.bind(this);
         this.handleSignUp = this.handleSignUp.bind(this);
     }
 
@@ -26,21 +27,22 @@ class LoginPage extends React.Component {
         this.setState({ [name]: value });
     }
 
-    handleLogin(e) {
+    handleSignUp(e) {
         e.preventDefault();
 
         this.setState({ submitted: true });
-        const { username, password, returnUrl } = this.state;
+        const { username, password, firstname, lastname, returnUrl } = this.state;
 
         // stop here if form is invalid
-        if (!(username && password)) {
+        if (!(username && password && firstname && lastname)) {
             return;
         }
 
         this.setState({ loading: true });
-        userService.login(username, password)
+        userService.signup(username, password, firstname, lastname)
             .then(
                 user => {
+                    alert("user created! try to login!" + user);
                     const { from } = this.props.location.state || { from: { pathname: "/" } };
                     this.props.history.push(from);
                 },
@@ -48,13 +50,8 @@ class LoginPage extends React.Component {
             );
     }
 
-    handleSignUp(e) {
-        e.preventDefault();
-        this.props.history.push({ pathname: "/signup" });
-    }
-
     render() {
-        const { username, password, submitted, loading, error } = this.state;
+        const { username, password, firstname, lastname, submitted, loading, error } = this.state;
         return (
             <div className="col-md-6 col-md-offset-3">
                 <div className="alert alert-info">
@@ -77,8 +74,21 @@ class LoginPage extends React.Component {
                             <div className="help-block">Password is required</div>
                         }
                     </div>
+                    <div className={'form-group' + (submitted && !firstname ? ' has-error' : '')}>
+                        <label htmlFor="firstname">First Name</label>
+                        <input type="firstname" className="form-control" name="firstname" value={firstname} onChange={this.handleChange} />
+                        {submitted && !firstname &&
+                            <div className="help-block">First name is required</div>
+                        }
+                    </div>
+                    <div className={'form-group' + (submitted && !lastname ? ' has-error' : '')}>
+                        <label htmlFor="lastname">Last name</label>
+                        <input type="lastname" className="form-control" name="lastname" value={lastname} onChange={this.handleChange} />
+                        {submitted && !lastname &&
+                            <div className="help-block">Last name is required</div>
+                        }
+                    </div>
                     <div className="form-group">
-                        <button className="btn btn-primary" disabled={loading} onClick={this.handleLogin}>Login</button>
                         <button className="btn btn-primary" disabled={loading} onClick={this.handleSignUp}>Sign Up</button>
                         {loading &&
                             <img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
@@ -93,4 +103,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export { LoginPage }; 
+export { SignUpPage }; 
