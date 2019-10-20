@@ -1,4 +1,5 @@
 ﻿const fs = require('fs');
+const client = require('_helpers/db');
 
 // users hardcoded for simplicity, store in a db for production applications
 //const users = [{ id: 1, username: 'test', password: 'test', firstName: 'Test', lastName: 'User' }];
@@ -10,41 +11,54 @@ module.exports = {
 };
 
 async function authenticate({ username, password }) {
-    let users = fs.readFileSync('C:/tmp/test').toString().split("\n");  
-    const user = users.find(function(el) {
-        let u = JSON.parse(el);
-        return u.username === username && u.password === password;
-      });
-    if (user) {
-        const { password, ...userWithoutPassword } = user;
+    let user = {};
+    const collection = client.db("climb_record_db").collection("userinfo");
+    await collection.findOne({username: username})
+        .then((item) => {
+            if(item) {
+                user[username] = item.username;
+                user[password] = item.password;
+                user['firstName'] = item.firstName;
+                user['lastName'] = item.lastName;
+            }
+         })
+        .catch((err) => console.log("ERROR authenticate: " + err));
+        
+    if (Object.keys(user).length > 0)  {
+        let { password, ...userWithoutPassword } = user;
         return userWithoutPassword;
-    }
+    } 
+    
 }
 
 async function addUser({ firstName, lastName, username, password }) {
 
-    let users = fs.readFileSync('C:/tmp/test').toString().split("\n");
-    let user = users.find(function(el) {
-        let u = JSON.parse(el);
-        return u.username === username && u.password === password;
-      }); 
-    
-    const line = `\n{ "id": ${(users.length) ? users.length+1 : 0}, "username": "${username}", "password": "${password}", "firstName": "${firstName}", "lastName": "${lastName}" }`;  
-    if (!user) {
-        fs.appendFileSync('C:/tmp/test', line);
-        user = JSON.parse(line);
-    }
-    if (user) {
-        let { password, ...userWithoutPassword } = user;
-        return userWithoutPassword;
-    }
+    let user = {};
+    const collection = client.db("climb_record_db").collection("userinfo");
+    await collection.findOne({username: username})
+        .then(function(value) {
+            if (!value) { // if user if not found, we add user to database
+                collection.insertOne({
+                    username: username,
+                    password: password,
+                    firstName: firstName,
+                    lastName: lastName
+                });
+                user = JSON.parse(JSON.stringify({username: username, password: password, firstName: firstName, lastName: lastName}));
+            } else {
+                //user = JSON.parse(JSON.stringify(value));
+                throw 'username taken';
+            }
+        })
+        .catch((err) => console.log("ERROR addUser: " + err));
+        
+        if (Object.keys(user).length > 0)  {
+            let { password, ...userWithoutPassword } = user;
+            return userWithoutPassword;
+        } 
+
 }
 
 async function getAll() {
-    let users = fs.readFileSync('C:/tmp/test').toString().split("\n");
-    return users.map(u => {
-        let el = JSON.parse(u);
-        const { password, ...userWithoutPassword } = el;
-        return userWithoutPassword;
-    });
+    return client.db("climb_record_db").collection("userinfo").find().toArray();
 }

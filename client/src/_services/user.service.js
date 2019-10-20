@@ -49,7 +49,7 @@ function signup(username, password, firstName, lastName) {
             }
             return user;
         })
-        .catch(err => console.log("err: " + err));
+        .catch(err => console.log("ERROR signup: " + err));
 }
 
 function logout() {

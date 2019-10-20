@@ -32,7 +32,7 @@ class HomePage extends React.Component {
                 {users.length &&
                     <ul>
                         {users.map((user, index) =>
-                            <li key={user.id}>
+                            <li key={user.username}>
                                 {user.firstName + ' ' + user.lastName}
                             </li>
                         )}
