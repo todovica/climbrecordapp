@@ -65,10 +65,14 @@ class HomePage extends React.Component {
                 <h3>Rutes for {user.firstName}:</h3>
                 {rutes.length ?
                     <ul>
-                        {rutes.map((rutes, index) =>
-                            <li key={index}>
-                                {'Name: '+ rutes.ruteName + ' Comment:' + rutes.comment}
-                            </li>
+                        {rutes.map((rutes, index) => {
+                            if(rutes.username === user.username) {
+                                return <li key={index}>
+                                    {'Name: '+ rutes.ruteName + ' Comment:' + rutes.comment}
+                                </li>;
+                            }
+
+                        }
                         )}
                     </ul> : null
                 }
