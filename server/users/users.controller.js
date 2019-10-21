@@ -6,6 +6,8 @@ const userService = require('./user.service');
 router.post('/authenticate', authenticate);
 router.post('/addUser', addUser);
 router.get('/', getAll);
+router.get('/getRutes', getRutesForUser);
+router.post('/addRute', addRuteForUser);
 
 module.exports = router;
 
@@ -24,5 +26,18 @@ function addUser(req, res, next) {
 function getAll(req, res, next) {
     userService.getAll()
         .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function getRutesForUser(req, res, next) {
+    userService.getRutesForUser(req.body)
+        .then(user => res.json(user))
+        .catch(err => next(err));
+}
+
+function addRuteForUser(req, res, next) {
+    console.log(req)
+    userService.addRuteForUser(req.body)
+        .then(user => res.json(user))
         .catch(err => next(err));
 }

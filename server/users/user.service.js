@@ -7,7 +7,9 @@ const client = require('_helpers/db');
 module.exports = {
     authenticate,
     addUser,
-    getAll
+    getAll,
+    getRutesForUser,
+    addRuteForUser
 };
 
 async function authenticate({ username, password }) {
@@ -16,8 +18,8 @@ async function authenticate({ username, password }) {
     await collection.findOne({username: username})
         .then((item) => {
             if(item) {
-                user[username] = item.username;
-                user[password] = item.password;
+                user['username'] = item.username;
+                user['password'] = item.password;
                 user['firstName'] = item.firstName;
                 user['lastName'] = item.lastName;
             }
@@ -37,7 +39,7 @@ async function addUser({ firstName, lastName, username, password }) {
     const collection = client.db("climb_record_db").collection("userinfo");
     await collection.findOne({username: username})
         .then(function(value) {
-            if (!value) { // if user if not found, we add user to database
+            if (!value) { // if user is not found, we add user to database
                 collection.insertOne({
                     username: username,
                     password: password,
@@ -46,7 +48,6 @@ async function addUser({ firstName, lastName, username, password }) {
                 });
                 user = JSON.parse(JSON.stringify({username: username, password: password, firstName: firstName, lastName: lastName}));
             } else {
-                //user = JSON.parse(JSON.stringify(value));
                 throw 'username taken';
             }
         })
@@ -59,6 +60,32 @@ async function addUser({ firstName, lastName, username, password }) {
 
 }
 
+//these calls are returning a promise and it will be done on the other side?? :)
 async function getAll() {
     return client.db("climb_record_db").collection("userinfo").find().toArray();
+}
+
+async function getRutesForUser() {
+    return client.db("climb_record_db").collection('rute_collection').find().toArray();
+}
+
+
+async function addRuteForUser({ username, ruteName, comment }) {
+    const collection = client.db("climb_record_db").collection('rute_collection');
+    await collection.findOne({ruteName: ruteName})
+        .then(function(value) {
+            if (!value) { // if rute is not found, we add it to database
+                collection.insertOne({
+                    username: username,
+                    ruteName: ruteName,
+                    comment: comment
+                });
+            } else {
+                throw 'rute already exists';
+            }
+        })
+        .catch((err) => console.log("ERROR addUser: " + err));
+        
+    return client.db("climb_record_db").collection('rute_collection').find().toArray();
+
 }

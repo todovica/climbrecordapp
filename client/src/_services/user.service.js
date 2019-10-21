@@ -5,7 +5,9 @@ export const userService = {
     login,
     logout,
     signup,
-    getAll
+    getAll,
+    getRutesForUser,
+    addRuteForUser
 };
 
 function login(username, password) {
@@ -64,6 +66,26 @@ function getAll() {
     };
 
     return fetch(`${config.apiUrl}/users`, requestOptions).then(handleResponse);
+}
+
+function getRutesForUser() {
+    const requestOptions = {
+        method: 'GET',
+        headers: authHeader()
+    };
+
+    return fetch(`${config.apiUrl}/users/getRutes`, requestOptions).then(handleResponse);
+}
+
+function addRuteForUser( username, ruteName, comment ) {
+    
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, ruteName, comment })
+    };
+    
+    return fetch(`${config.apiUrl}/users/addRute`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
