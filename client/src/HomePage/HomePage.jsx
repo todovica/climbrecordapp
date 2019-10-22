@@ -1,5 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import InputFieldComponent from '../_components/InputFieldComponent';
+import NavBarComponent from '../_components/NavBarComponent';
+import WelcomeCardComponent from '../_components/WelcomeCardComponent';
+import UsersCardComponent from '../_components/UsersCardComponent';
+import RoutesCardComponent from '../_components/RoutesCardComponent';
 
 import { userService } from '../_services';
 
@@ -37,6 +41,7 @@ class HomePage extends React.Component {
     }
 
     handleAddingRute(e) {
+        console.log("ddddd")
         this.setState({ addRutesMenu: !this.state.addRutesMenu });
     }
 
@@ -48,65 +53,14 @@ class HomePage extends React.Component {
     render() {
         const { user, users, rutes, addRutesMenu, ruteName, comment, submitted } = this.state;
         return (
-            <div className="col-md-6 col-md-offset-3">
-                <h1>Hi {user.firstName}!</h1>
-                <p>You're logged in to Climb Recort App!!</p>
-                <h3>Users from secure api end point:</h3>
-                {users.loading && <em>Loading users...</em>}
-                {users.length &&
-                    <ul>
-                        {users.map((user, index) =>
-                            <li key={user.username}>
-                                {user.firstName + ' ' + user.lastName}
-                            </li>
-                        )}
-                    </ul>
-                }
-                <h3>Rutes for {user.firstName}:</h3>
-                {rutes.length ?
-                    <ul>
-                        {rutes.map((rutes, index) => {
-                            if(rutes.username === user.username) {
-                                return <li key={index}>
-                                    {'Name: '+ rutes.ruteName + ' Comment:' + rutes.comment}
-                                </li>;
-                            }
-
-                        }
-                        )}
-                    </ul> : null
-                }
-                <p>
-                    <button className="btn btn-primary" disabled={false} onClick={this.handleAddingRute}>Add new rute</button>      
-                </p>
-                {addRutesMenu &&
-                <form name="form">
-                    <div className={'form-group' + (submitted && !ruteName ? ' has-error' : '')}>
-                        <label htmlFor="ruteName">Name of the rute</label>
-                        <input type="text" className="form-control" name="ruteName" value={ruteName} onChange={this.handleChange} />
-                        {submitted && !ruteName &&
-                            <div className="help-block">Name is required</div>
-                        }
-                    </div>
-                    <div className={'form-group' + (submitted && !comment ? ' has-error' : '')}>
-                        <label htmlFor="comment">Comment</label>
-                        <input type="comment" className="form-control" name="comment" value={comment} onChange={this.handleChange} />
-                        {submitted && !comment &&
-                            <div className="help-block">Comment is required</div>
-                        }
-                    </div>
-                    <p>
-                        <button className="btn btn-primary" disabled={false} onClick={this.submitNewRute}>Submit new rute</button>      
-                    </p>
-                    
-                    {/*error &&
-                        <div className={'alert alert-danger'}>{error}</div>
-                    */}
-                </form>}
-                <p>
-                    <Link to="/login">Logout</Link>
-                </p>
-            </div>
+            <React.Fragment>
+                <NavBarComponent />
+                <div className="row" style={{padding: '15px', color: 'darkgreen'}}>
+                    <WelcomeCardComponent user={user} />
+                    <RoutesCardComponent user={user} users={users} rutes={rutes} addRutesMenu={addRutesMenu} ruteName={ruteName} comment={comment} submitted={submitted} handleAddingRute={this.handleAddingRute} />
+                    <UsersCardComponent users={users} />
+                </div>
+            </React.Fragment>
         );
     }
 }

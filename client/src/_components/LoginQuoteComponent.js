@@ -19,4 +19,4 @@ class LoginQuoteComponent extends React.Component {
 
 }
 
-export default LoginQuoteComponent ; 
+export default LoginQuoteComponent; 
