@@ -55,7 +55,7 @@ class HomePage extends React.Component {
         return (
             <React.Fragment>
                 <NavBarComponent />
-                <div className="row" style={{padding: '15px', color: 'darkgreen'}}>
+                <div className="row home">
                     <WelcomeCardComponent user={user} />
                     <RoutesCardComponent user={user} users={users} rutes={rutes} addRutesMenu={addRutesMenu} ruteName={ruteName} comment={comment} submitted={submitted} handleAddingRute={this.handleAddingRute} />
                     <UsersCardComponent users={users} />

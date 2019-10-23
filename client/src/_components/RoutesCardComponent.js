@@ -13,11 +13,11 @@ class RoutesCardComponent extends React.Component {
         const { user, rutes, addRutesMenu, ruteName, comment, submitted } = this.props;
         return (
             <div className="col-12 col-sm-6">
-                <div className="active-pink-3 active-pink-4 mb-4">
+                <div className="searchbutton mb-4">
                     <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
                 </div>
                 {rutes.length ?
-                <div className="card" style={{ padding: '10px'}}>
+                <div className="card cardPadding">
                     {rutes.map((rutes, index) => {
                         if(rutes.username === user.username) {
                             return <div className="container" key={index}>

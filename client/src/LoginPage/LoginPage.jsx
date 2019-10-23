@@ -62,7 +62,7 @@ class LoginPage extends React.Component {
             <LoginQuoteComponent />
 
 <div className="row justify-content-center">
-<div className="col-4 col-offset-4 col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 col-lg-4 col-lg-offset-4" style={{ color: "darkgreen"}}>
+<div className="col-4 col-offset-4 col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 col-lg-4 col-lg-offset-4 loginform">
 <h2>Login</h2>
             <form name="form">
                 <InputFieldComponent label={'username'} filedInput={username} submitted={submitted} handleChange={this.handleChange} />
