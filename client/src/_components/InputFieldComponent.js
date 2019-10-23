@@ -15,11 +15,11 @@ class InputFieldComponent extends React.Component {
 
 
     render() {
-        const { filedInput, label, submitted } = this.props;
+        const { filedInput, label, submitted, htmlLabel } = this.props;
         return (
             <div className={'form-group' + (submitted && !filedInput ? ' has-error' : '')}>
-                <label htmlFor={label}>{label}</label>
-                <input type="text" className="form-control" name={label} value={filedInput} onChange={this.handleChange} />
+                <label htmlFor={htmlLabel}>{label}</label>
+                <input type="text" className="form-control" name={htmlLabel} value={filedInput} onChange={this.handleChange} />
                 {submitted && !filedInput &&
                     <div className="help-block">{label} is required</div>
                 }

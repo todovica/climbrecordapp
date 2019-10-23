@@ -9,7 +9,7 @@ class NavBarComponent extends React.Component {
         return (
             <div className="jumbotron-fluid navbarmain">
                 <div className="d-flex flex-row-reverse">
-                    <div className="p-2"><FaSignOutAlt className="navbaricon"/></div>
+                    <div className="p-2"><a href="/login"><FaSignOutAlt className="navbaricon" to="/login"/></a></div>
                     <div className="p-2"><FaFacebookSquare className="navbaricon"/></div>
                     <div className="p-2"><FaInstagram className="navbaricon"/></div>
                 </div>

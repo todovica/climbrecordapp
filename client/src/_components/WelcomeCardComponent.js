@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { FaUserCircle } from "react-icons/fa";
 import { FaSpa } from "react-icons/fa";
 
@@ -17,7 +16,6 @@ class WelcomeCardComponent extends React.Component {
                             <h5 className="card-title">Hi {this.props.user.firstName}! <FaSpa /></h5>
                             <h6 className="card-subtitle mb-2 text-muted">Welcome to Climb Record App!!</h6>
                             <p className="card-text">This is a perfect place for you to keep track of climbing scores and get in touch with awesome people.</p>
-                            <Link to="/login">Logout</Link>
                         </div>
                     </div>
             );

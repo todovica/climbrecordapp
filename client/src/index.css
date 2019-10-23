@@ -7,7 +7,7 @@ a {
  a:hover{
     text-decoration: none;
     cursor: pointer;
-    color: rgba(174, 234, 0,0.90);
+    color:#019601;
  }
 .help-block { font-size: 12px; }
 
@@ -62,10 +62,6 @@ border-radius: 0;
     color: darkgreen;
 }
 
-.blockquote {
-    border: 0;
-}
-
 .navbaricon {
     margin: 5px;
     height: 2em;
@@ -89,4 +85,29 @@ border-radius: 0;
 
 .cardPadding {
     padding: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #025302;
+    border-color: #025302;
+}
+
+.btn-primary {
+    background-color: darkgreen;
+    border-color: darkgreen;
+}
+
+.expandedarea {
+    margin-bottom: 32px;
+    margin-right: 1px;
+}
+
+.expandedtext {
+    padding: 15px;
+    border-radius: .25em;
+    max-width: 20em;
+}
+
+.noborder {
+    border: 0px;
 }

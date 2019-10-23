@@ -65,8 +65,8 @@ class LoginPage extends React.Component {
 <div className="col-4 col-offset-4 col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2 col-xs-10 col-xs-offset-1 col-lg-4 col-lg-offset-4 loginform">
 <h2>Login</h2>
             <form name="form">
-                <InputFieldComponent label={'username'} filedInput={username} submitted={submitted} handleChange={this.handleChange} />
-                <InputFieldComponent label={'password'} filedInput={password} submitted={submitted} handleChange={this.handleChange} />
+                <InputFieldComponent label={'Username'} htmlLabel={'username'} filedInput={username} submitted={submitted} handleChange={this.handleChange} />
+                <InputFieldComponent label={'Password'} htmlLabel={'password'} filedInput={password} submitted={submitted} handleChange={this.handleChange} />
                 <div className="form-group">
                     <button className="btn btn-primary btn-block" disabled={loading} onClick={this.handleLogin}>Login</button>
                 </div>
