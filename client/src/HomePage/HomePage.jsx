@@ -16,7 +16,9 @@ class HomePage extends React.Component {
             rutes: [],
             submitted: false,
             ruteName: '',
-            comment: ''
+            comment: '',
+            location: '',
+            grade: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -37,7 +39,7 @@ class HomePage extends React.Component {
     }
 
     render() {
-        const { user, users, rutes, ruteName, comment, submitted } = this.state;
+        const { user, users, rutes, ruteName, comment, submitted, location, grade } = this.state;
         return (
             <React.Fragment>
                 <NavBarComponent />
@@ -49,6 +51,8 @@ class HomePage extends React.Component {
                             rutes={rutes}
                             ruteName={ruteName}
                             comment={comment}
+                            location={location}
+                            grade={grade}
                             submitted={submitted}
                             handleAddingRute={this.handleAddingRute}
                         />

@@ -77,12 +77,12 @@ function getRutesForUser() {
     return fetch(`${config.apiUrl}/users/getRutes`, requestOptions).then(handleResponse);
 }
 
-function addRuteForUser( username, ruteName, comment ) {
+function addRuteForUser( username, ruteName, comment, location, grade ) {
     
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, ruteName, comment })
+        body: JSON.stringify({ username, ruteName, comment, location, grade })
     };
     
     return fetch(`${config.apiUrl}/users/addRute`, requestOptions).then(handleResponse);

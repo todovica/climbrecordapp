@@ -31,19 +31,18 @@ class RoutesCardComponent extends React.Component {
     }
 
     handleAddingRute(e) {
-        console.log("ddddd")
         this.setState({ addRutesMenu: !this.state.addRutesMenu });
     }
 
     submitNewRute(e) {
-        console.log(this.props.user.username + ' ' + this.state.ruteName + ' ' + this.state.comment)
+        console.log(this.props.user.username + ' ' + this.state.ruteName + ' ' + this.state.comment + ' ' + this.state.location + ' ' + this.state.grade)
         this.setState({ addRutesMenu: !this.state.addRutesMenu });
-        userService.addRuteForUser(this.props.user.username, this.state.ruteName, this.state.comment).then(rutes => this.setState({ rutes }));
+        userService.addRuteForUser(this.props.user.username, this.state.ruteName, this.state.comment, this.state.location, this.state.grade).then(rutes => this.setState({ rutes }));
     }
 
     render() {
         const { user, rutes } = this.props;
-        const { ruteName, comment, submitted, addRutesMenu } = this.state;
+        const { ruteName, comment, location, grade, submitted, addRutesMenu } = this.state;
         return (
             <div className="col-12 col-sm-6">
                 <div className="searchbutton mb-4">
@@ -56,13 +55,13 @@ class RoutesCardComponent extends React.Component {
                             return <div className="container" key={index}>
                                     <a data-toggle="collapse" href={'#'+rutes.ruteName.replace(/\s+/g,'')} role="button" aria-expanded="false" aria-controls={rutes.ruteName.replace(/\s+/g,'')}>
                                         <div className="row justify-content-between" >
-                                        <div>{rutes.ruteName}</div><div>7a+</div></div>
+                                        <div>{rutes.ruteName}</div><div>{rutes.grade}</div></div>
                                     </a>
                                     <hr></hr>
                                     <div className="collapse" id={rutes.ruteName.replace(/\s+/g,'')}>
                                     <div className="row expandedarea justify-content-between">
                                         <div className="expandedtext">
-                                            <div>{rutes.comment} </div>
+                                            <div>{rutes.location} </div>
                                             <div>{rutes.comment} </div>
                                         </div>
                                         <div><FaEdit />{' '}<FaTrashAlt /></div>
@@ -78,6 +77,8 @@ class RoutesCardComponent extends React.Component {
                 <form name="form">
                     <InputFieldComponent label={'Route Name'} htmlLabel={'ruteName'} filedInput={ruteName} submitted={submitted} handleChange={this.handleChange} />
                     <InputFieldComponent label={'Comment'} htmlLabel={'comment'} filedInput={comment} submitted={submitted} handleChange={this.handleChange} />
+                    <InputFieldComponent label={'Location'} htmlLabel={'location'} filedInput={location} submitted={submitted} handleChange={this.handleChange} />
+                    <InputFieldComponent label={'Grade'} htmlLabel={'grade'} filedInput={grade} submitted={submitted} handleChange={this.handleChange} />
                 
                     <p>
                     <button className="btn btn-primary" disabled={false} onClick={this.submitNewRute}>Submit new rute</button>     

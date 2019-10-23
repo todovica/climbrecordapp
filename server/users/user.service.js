@@ -70,7 +70,7 @@ async function getRutesForUser() {
 }
 
 
-async function addRuteForUser({ username, ruteName, comment }) {
+async function addRuteForUser({ username, ruteName, comment, location, grade }) {
     const collection = client.db("climb_record_db").collection('rute_collection');
     await collection.findOne({ruteName: ruteName})
         .then(function(value) {
@@ -78,7 +78,9 @@ async function addRuteForUser({ username, ruteName, comment }) {
                 collection.insertOne({
                     username: username,
                     ruteName: ruteName,
-                    comment: comment
+                    comment: comment,
+                    location: location,
+                    grade: grade
                 });
             } else {
                 throw 'rute already exists';
