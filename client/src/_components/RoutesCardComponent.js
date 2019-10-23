@@ -40,6 +40,12 @@ class RoutesCardComponent extends React.Component {
         userService.addRuteForUser(this.props.user.username, this.state.ruteName, this.state.comment, this.state.location, this.state.grade).then(rutes => this.setState({ rutes }));
     }
 
+    submitDeletionOfRoute(username, ruteName, comment, location, grade) {
+        console.log('delete'  + ' ' + username + ' ' + ruteName + ' ' +  comment + ' ' +  location + ' ' +  grade);
+        this.setState({ addRutesMenu: !this.state.addRutesMenu });
+        userService.deleteRuteForUser(username, ruteName, comment, location, grade).then(rutes => this.setState({ rutes }));
+    }
+
     render() {
         const { user, rutes } = this.props;
         const { ruteName, comment, location, grade, submitted, addRutesMenu } = this.state;
@@ -64,7 +70,7 @@ class RoutesCardComponent extends React.Component {
                                             <div>{rutes.location} </div>
                                             <div>{rutes.comment} </div>
                                         </div>
-                                        <div><FaEdit />{' '}<FaTrashAlt /></div>
+                                        <div><FaEdit />{' '}<a id="myLink" title="Click to delete route" href="#" onClick={this.submitDeletionOfRoute.bind(this, user.username, rutes.ruteName, rutes.comment, rutes.location, rutes.grade)}><FaTrashAlt /></a></div>
                                     </div>
                                     </div></div>}
                                  

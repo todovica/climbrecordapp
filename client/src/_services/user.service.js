@@ -7,7 +7,8 @@ export const userService = {
     signup,
     getAll,
     getRutesForUser,
-    addRuteForUser
+    addRuteForUser,
+    deleteRuteForUser
 };
 
 function login(username, password) {
@@ -86,6 +87,17 @@ function addRuteForUser( username, ruteName, comment, location, grade ) {
     };
     
     return fetch(`${config.apiUrl}/users/addRute`, requestOptions).then(handleResponse);
+}
+
+function deleteRuteForUser( username, ruteName, comment, location, grade ) {
+    
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, ruteName, comment, location, grade })
+    };
+    
+    return fetch(`${config.apiUrl}/users/delRute`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
