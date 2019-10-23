@@ -4,7 +4,7 @@ module.exports = basicAuth;
 
 async function basicAuth(req, res, next) {
     // make authenticate path public
-    if (req.path === '/users/authenticate' || req.path === '/users/addUser' || req.path === '/users/getRutes' || req.path === '/users/addRute') {
+    if (req.path === '/users/authenticate' || req.path === '/users/addUser' || req.path === '/users/getRutes' || req.path === '/users/addRute' || req.path === '/users/delRute') {
         return next();
     }
     

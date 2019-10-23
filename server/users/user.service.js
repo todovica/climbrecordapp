@@ -9,7 +9,8 @@ module.exports = {
     addUser,
     getAll,
     getRutesForUser,
-    addRuteForUser
+    addRuteForUser,
+    deleteRuteForUser
 };
 
 async function authenticate({ username, password }) {
@@ -84,6 +85,28 @@ async function addRuteForUser({ username, ruteName, comment, location, grade }) 
                 });
             } else {
                 throw 'rute already exists';
+            }
+        })
+        .catch((err) => console.log("ERROR addUser: " + err));
+        
+    return client.db("climb_record_db").collection('rute_collection').find().toArray();
+
+}
+
+async function deleteRuteForUser({ username, ruteName, comment, location, grade }) {
+    const collection = client.db("climb_record_db").collection('rute_collection');
+    await collection.findOne({ruteName: ruteName})
+        .then(function(value) {
+            if (value) { // if rute is not found, we add it to database
+                collection.deleteOne({
+                    username: username,
+                    ruteName: ruteName,
+                    comment: comment,
+                    location: location,
+                    grade: grade
+                });
+            } else {
+                throw 'rute not found';
             }
         })
         .catch((err) => console.log("ERROR addUser: " + err));
