@@ -4,7 +4,7 @@ class LoginQuoteComponent extends React.Component {
 
     render() {
         return (
-            <div className="jumbotron jumbotron-fluid loginQuote">
+            <div className="jumbotron jumbotron-fluid loginQuote navbarmain">
                 <div className="container">
                     <h1 className="display-4">Climbing Record App</h1>
                     <blockquote className="blockquote noborder">
