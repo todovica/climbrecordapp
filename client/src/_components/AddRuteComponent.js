@@ -34,9 +34,9 @@ class AddRuteComponent extends React.Component {
             console.log("form input is invalid");
             return;
         }
-
-        userService.addRuteForUser(this.props.username, this.state.ruteName, this.state.comment, this.state.location, this.state.grade).then(rutes => this.setState({ rutes }));
-        document.getElementById("addRouteOverlay").style.display = "none";
+        userService.addRuteForUser(this.props.username, this.state.ruteName, this.state.comment, this.state.location, this.state.grade)
+            .then(() => this.props.updateRoutesList());
+        document.getElementById("addRouteOverlay").style.display = "none";   
     }
 
 
