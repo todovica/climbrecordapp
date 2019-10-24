@@ -13,7 +13,17 @@ class RoutesCardComponent extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            rutes: [],
+            loading: false
+        };
+
         this.handleAddingRute = this.handleAddingRute.bind(this);
+        this.submitDeletionOfRoute = this.submitDeletionOfRoute.bind(this);
+    }
+
+    componentDidMount() {
+        userService.getRutesForUser().then((rutes) => this.setState({ rutes }));
     }
 
     handleAddingRute(e) {
@@ -21,18 +31,22 @@ class RoutesCardComponent extends React.Component {
     }
 
     submitDeletionOfRoute(username, ruteName, comment, location, grade) {
+        this.setState({loading: true});
         console.log('delete'  + ' ' + username + ' ' + ruteName + ' ' +  comment + ' ' +  location + ' ' +  grade);
-        userService.deleteRuteForUser(username, ruteName, comment, location, grade).then(u => console.log(u));
+        userService.deleteRuteForUser(username, ruteName, comment, location, grade)
+            .then(rutes => this.setState({ rutes }))
+            .then(() => this.setState({loading: false}));
     }
 
     render() {
-        const { user, rutes } = this.props;
+        const { user } = this.props;
+        const { rutes, loading } = this.state;
         return (
             <div className="col-12 col-sm-6">
                 <div className="searchbutton mb-4">
                     <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
                 </div>
-                {rutes.length ?
+                {rutes.length && !loading ?
                 <div className="card cardPadding noborder">
                     {rutes.map((rutes, index) => {
                         if(rutes.username === user.username) {
@@ -57,10 +71,11 @@ class RoutesCardComponent extends React.Component {
                                     </div></div>}
                                  
                     })}
-                    </div> : null}
-                <p>
-                <button className="btn btn-primary" disabled={false} onClick={this.handleAddingRute}>Add new rute</button>     
-                </p>
+                    <p style={{marginTop: '15px'}}>
+                    <button className="btn btn-primary" disabled={false} onClick={this.handleAddingRute}>Add new rute</button>     
+                    </p>
+                    </div> : <div align="center"><img src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" /></div>}
+    
 
                 <AddRuteComponent username={user.username} />
                 

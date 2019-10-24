@@ -30,7 +30,6 @@ class HomePage extends React.Component {
             users: { loading: true }
         });
         userService.getAll().then(users => this.setState({ users }));
-        userService.getRutesForUser().then((rutes) => this.setState({ rutes }));
     }
 
     handleChange(e) {
@@ -48,7 +47,6 @@ class HomePage extends React.Component {
                     <RoutesCardComponent
                             user={user}
                             users={users}
-                            rutes={rutes}
                             ruteName={ruteName}
                             comment={comment}
                             location={location}
