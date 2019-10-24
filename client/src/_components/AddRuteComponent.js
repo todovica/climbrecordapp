@@ -29,6 +29,8 @@ class AddRuteComponent extends React.Component {
     }
 
     submitNewRute(e) {
+
+        this.setState({ submitted: true });
         // stop here if form is invalid
         if (!(this.props.username && this.state.ruteName && this.state.comment && this.state.location && this.state.grade)) {
             console.log("form input is invalid");

@@ -16,7 +16,7 @@ class OverlayComponent extends React.Component {
     render() {
         const { id } = this.props;
         return (
-            <div id={id}>
+            <div id={id} style={{ display: 'none'}}>
                 <div id="overlay" className="d-flex justify-content-center flex-wrap align-content-center">
                     {this.props.children}
                     </div>
