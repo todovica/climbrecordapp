@@ -1,7 +1,8 @@
 
 
 import React from 'react';
-import InputFieldComponent from '../_components/InputFieldComponent';
+import AddRuteComponent from '../_components/AddRuteComponent';
+
 import { FaTrashAlt } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 
@@ -12,43 +13,20 @@ class RoutesCardComponent extends React.Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            Name: '',
-            Comment: '',
-            submitted: false,
-            addRutesMenu: false
-        };
-
-        this.handleChange = this.handleChange.bind(this);
         this.handleAddingRute = this.handleAddingRute.bind(this);
-        this.submitNewRute = this.submitNewRute.bind(this);
-    }
-
-    handleChange(e) {
-        console.log(e.target);
-        const { name, value } = e.target;
-        this.setState({ [name]: value });
     }
 
     handleAddingRute(e) {
-        this.setState({ addRutesMenu: !this.state.addRutesMenu });
-    }
-
-    submitNewRute(e) {
-        console.log(this.props.user.username + ' ' + this.state.ruteName + ' ' + this.state.comment + ' ' + this.state.location + ' ' + this.state.grade)
-        this.setState({ addRutesMenu: !this.state.addRutesMenu });
-        userService.addRuteForUser(this.props.user.username, this.state.ruteName, this.state.comment, this.state.location, this.state.grade).then(rutes => this.setState({ rutes }));
+        document.getElementById("addRouteOverlay").style.display = "block";
     }
 
     submitDeletionOfRoute(username, ruteName, comment, location, grade) {
         console.log('delete'  + ' ' + username + ' ' + ruteName + ' ' +  comment + ' ' +  location + ' ' +  grade);
-        this.setState({ addRutesMenu: !this.state.addRutesMenu });
-        userService.deleteRuteForUser(username, ruteName, comment, location, grade).then(rutes => this.setState({ rutes }));
+        userService.deleteRuteForUser(username, ruteName, comment, location, grade).then(u => console.log(u));
     }
 
     render() {
         const { user, rutes } = this.props;
-        const { ruteName, comment, location, grade, submitted, addRutesMenu } = this.state;
         return (
             <div className="col-12 col-sm-6">
                 <div className="searchbutton mb-4">
@@ -67,10 +45,14 @@ class RoutesCardComponent extends React.Component {
                                     <div className="collapse" id={rutes.ruteName.replace(/\s+/g,'')}>
                                     <div className="row expandedarea justify-content-between">
                                         <div className="expandedtext">
-                                            <div>{rutes.location} </div>
-                                            <div>{rutes.comment} </div>
+                                            <div>{rutes.location}</div>
+                                            <div>{rutes.comment}</div>
                                         </div>
-                                        <div><FaEdit />{' '}<a id="myLink" title="Click to delete route" href="#" onClick={this.submitDeletionOfRoute.bind(this, user.username, rutes.ruteName, rutes.comment, rutes.location, rutes.grade)}><FaTrashAlt /></a></div>
+                                        <div>
+                                            <a id="myLink" title="Click to delete route" href="#" onClick={() => console.log("editing to be implemented")}><FaEdit /></a>
+                                            {' '}
+                                            <a id="myLink" title="Click to delete route" href="#" onClick={this.submitDeletionOfRoute.bind(this, user.username, rutes.ruteName, rutes.comment, rutes.location, rutes.grade)}><FaTrashAlt /></a>
+                                        </div>
                                     </div>
                                     </div></div>}
                                  
@@ -79,21 +61,9 @@ class RoutesCardComponent extends React.Component {
                 <p>
                 <button className="btn btn-primary" disabled={false} onClick={this.handleAddingRute}>Add new rute</button>     
                 </p>
-                {addRutesMenu &&
-                <form name="form">
-                    <InputFieldComponent label={'Route Name'} htmlLabel={'ruteName'} filedInput={ruteName} submitted={submitted} handleChange={this.handleChange} />
-                    <InputFieldComponent label={'Comment'} htmlLabel={'comment'} filedInput={comment} submitted={submitted} handleChange={this.handleChange} />
-                    <InputFieldComponent label={'Location'} htmlLabel={'location'} filedInput={location} submitted={submitted} handleChange={this.handleChange} />
-                    <InputFieldComponent label={'Grade'} htmlLabel={'grade'} filedInput={grade} submitted={submitted} handleChange={this.handleChange} />
+
+                <AddRuteComponent username={user.username} />
                 
-                    <p>
-                    <button className="btn btn-primary" disabled={false} onClick={this.submitNewRute}>Submit new rute</button>     
-                    </p>
-                    
-                    {/*error &&
-                        <div className={'alert alert-danger'}>{error}</div>
-                    */}
-                </form>}
                 
                 </div>
             );

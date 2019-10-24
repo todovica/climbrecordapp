@@ -111,3 +111,38 @@ border-radius: 0;
 .noborder {
     border: 0px;
 }
+
+#addRouteOverlay {
+    display: none; /* Hidden by default */
+}
+#overlay {
+    position: fixed; /* Sit on top of the page content */
+    display: block; 
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    cursor: pointer; /* Add a pointer on hover */
+  }
+
+.overlayclass {
+    background-color: white;
+    padding: 15px;
+    height: fit-content;
+    border: 2px solid darkgreen;
+    border-radius: .25em;
+}
+
+.gradepicker {
+    width: 150px;
+    margin-left: 15px;
+}
+
+.formmargin {
+    margin-top: 15px;
+    margin-bottom: 30px;
+}

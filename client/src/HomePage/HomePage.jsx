@@ -54,7 +54,6 @@ class HomePage extends React.Component {
                             location={location}
                             grade={grade}
                             submitted={submitted}
-                            handleAddingRute={this.handleAddingRute}
                         />
                     <UsersCardComponent users={users} />
                 </div>
