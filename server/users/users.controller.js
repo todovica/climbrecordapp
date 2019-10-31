@@ -37,14 +37,12 @@ function getRutesForUser(req, res, next) {
 }
 
 function addRuteForUser(req, res, next) {
-    console.log(req)
     userService.addRuteForUser(req.body)
         .then(user => res.json(user))
         .catch(err => next(err));
 }
 
 function deleteRuteForUser(req, res, next) {
-    console.log(req)
     userService.deleteRuteForUser(req.body)
         .then(user => res.json(user))
         .catch(err => next(err));

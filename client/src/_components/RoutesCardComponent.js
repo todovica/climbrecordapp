@@ -15,9 +15,11 @@ class RoutesCardComponent extends React.Component {
 
         this.state = {
             rutes: [],
+            searchstr: '',
             loading: false
         };
 
+        this.handleChange = this.handleChange.bind(this);
         this.handleAddingRute = this.handleAddingRute.bind(this);
         this.submitDeletionOfRoute = this.submitDeletionOfRoute.bind(this);
         this.updateRoutesList = this.updateRoutesList.bind(this);
@@ -25,6 +27,11 @@ class RoutesCardComponent extends React.Component {
 
     componentDidMount() {
         userService.getRutesForUser().then((rutes) => this.setState({ rutes }));
+    }
+
+    handleChange(e) {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
     }
 
     handleAddingRute(e) {
@@ -48,18 +55,18 @@ class RoutesCardComponent extends React.Component {
 
     render() {
         const { user } = this.props;
-        const { rutes, loading } = this.state;
+        const { rutes, loading, searchstr } = this.state;
         return (
             <div className="col-12 col-sm-6">
                 <div className="searchbutton mb-4">
-                    <input className="form-control" type="text" placeholder="Search" aria-label="Search" />
+                    <input className="form-control" type="text" value={searchstr}  onChange={this.handleChange} name="searchstr" placeholder="Search" aria-label="Search" />
                 </div>
                 {rutes.length && !loading ?
                 <div className="card cardPadding noborder">
                     {rutes.map((rutes, index) => {
-                        if(rutes.username === user.username) {
+                        if(rutes.username === user.username && (searchstr.length===0 || rutes.ruteName.search(searchstr)>-1)) {
                             return <div className="container" key={index}>
-                                    <a data-toggle="collapse" href={'#'+rutes.ruteName.replace(/\s+/g,'')} role="button" aria-expanded="false" aria-controls={rutes.ruteName.replace(/\s+/g,'')}>
+                                <a data-toggle="collapse" href={'#'+rutes.ruteName.replace(/\s+/g,'')} role="button"  aria-expanded="false" aria-controls={rutes.ruteName.replace(/\s+/g,'')}>
                                         <div className="row justify-content-between" >
                                         <div>{rutes.ruteName}</div><div>{rutes.grade}</div></div>
                                     </a>
